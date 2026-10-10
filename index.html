@@ -3,135 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>બોનાફાઈડ પ્રમાણપત્ર (એડિટ કરવા યોગ્ય)</title>
-    <!-- ગુજરાતી ફોન્ટ માટે Google Fonts નો ઉપયોગ -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>લગ્ન નોંધણી પ્રમાણપત્ર - એડિટેબલ</title>
     <style>
+        /* A4 પેજ સેટિંગ */
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
         body {
-            font-family: 'Noto Sans Gujarati', sans-serif;
+            font-family: 'Noto Sans Gujarati', 'Shruti', Arial, sans-serif;
             background-color: #f4f4f4;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            font-size: 18px;
-            line-height: 2.5; 
             margin: 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            font-weight: bold;
         }
 
-        .container {
+        /* ટૂલબાર (એડિટિંગ માટે) */
+        .toolbar {
+            width: 210mm;
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            box-sizing: border-box;
+        }
+
+        .toolbar button {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Noto Sans Gujarati', sans-serif;
+        }
+
+        .toolbar button:hover {
+            background-color: #b71c1c;
+        }
+
+        /* A4 પેજ વ્રેપર - ચારે બાજુ 1cm જગ્યા */
+        .page-wrapper {
+            width: 210mm;
+            height: 297mm;
             background-color: #ffffff;
-            width: 210mm; /* A4 Width */
-            min-height: 297mm; /* A4 Height */
-            padding: 40px 60px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 10mm; /* 1 સેન્ટિમીટર જગ્યા */
+            box-sizing: border-box;
+        }
+
+        /* બોર્ડર વાળું કન્ટેનર */
+        .certificate-container {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            border: 4px solid #d32f2f;
+            padding: 1mm 20mm 20mm 20mm;
             box-sizing: border-box;
             position: relative;
+            color: #b71c1c; /* ડિફોલ્ટ લાલ રંગ */
+            font-size: 15px;
+            line-height: 1.8;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-weight: bold;
+            outline: none;
         }
 
-        h1 {
+        /* Header Section */
+        .header {
             text-align: center;
-            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .header h4 {
+            margin: 0;
+            font-size: 16px;
+            color: #b71c1c;
+            font-weight: bold;
+        }
+
+        .header p {
+            font-size: 11px;
+            color: #b71c1c;
+            margin: 5px 0 15px 0;
+            font-weight: bold;
+        }
+
+        /* સત્યમેવ જયતે લોગો - લાલ કલરમાં */
+        .emblem {
+            width: 75px;
+            height: auto;
+            margin-bottom: 8px;
+            filter: invert(18%) sepia(90%) saturate(3000%) hue-rotate(350deg) brightness(80%) contrast(100%);
+        }
+
+        .govt-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .main-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 12px 0;
+            color: #b71c1c;
             text-decoration: underline;
-            margin-bottom: 60px;
-            font-weight: 700;
+            text-underline-offset: 6px;
         }
 
-        p {
-            text-align: justify;
+        .sub-title {
+            font-size: 13px;
             margin-bottom: 20px;
+            font-weight: bold;
         }
 
-        /* અંડરલાઈન (ખાલી જગ્યા) માટેની સ્ટાઈલ */
-        .underline {
+        /* Body Content */
+        .content {
+            text-align: justify;
+            font-size: 16px;
+            line-height: 2.2;
+            color: #b71c1c;
+            flex-grow: 1;
+            font-weight: bold;
+        }
+
+        .form-no {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* એડિટ કરી શકાય તેવી ડોટેડ લાઈન */
+        .dotted-line {
+            border-bottom: 1px dotted #b71c1c;
             display: inline-block;
-            border-bottom: 1px solid #000;
-            min-width: 50px;
-            text-align: center;
-            outline: none; /* ક્લિક કરવાથી બોર્ડર આવતી અટકાવવા */
+            min-width: 80px;
+            width: auto;
             padding: 0 5px;
-            color: #000;
+            text-align: center;
+            vertical-align: bottom;
+            outline: none;
+            cursor: text;
+            color: #000000 !important; /* અક્ષરો કાળા */
+            font-weight: bold !important; /* અક્ષરો બોલ્ડ */
         }
 
-        /* જ્યારે તમે લખવા માટે ક્લિક કરશો ત્યારે બેકગ્રાઉન્ડ હલકો પીળો થશે */
-        .underline:focus {
-            background-color: #fff9c4;
-            border-bottom: 2px solid #000;
+        .dotted-line:focus {
+            background-color: #ffebee;
         }
 
-        /* વધારે પહોળાઈવાળી ખાલી જગ્યા */
-        .w-100 { width: 100px; }
-        .w-200 { width: 200px; }
-        .w-300 { width: 300px; }
-        .w-date { width: 40px; }
-
-        .fee-line {
+        /* Footer Section */
+        .footer {
             margin-top: 40px;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
+            position: relative;
+            padding-bottom: 10px;
         }
 
-        /* પ્રિન્ટ બટનની સ્ટાઈલ */
-        .btn-print {
-            margin-top: 20px;
-            padding: 12px 25px;
-            font-size: 18px;
-            font-family: 'Noto Sans Gujarati', sans-serif;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .footer-left {
+            text-align: left;
+            font-size: 15px;
+            line-height: 2;
             font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .btn-print:hover {
-            background-color: #0056b3;
+        .footer-center {
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
         }
 
-        /* પ્રિન્ટ કરતી વખતે બટન છુપાવવા માટે */
+        .footer-center img {
+            width: 75px;
+            height: auto;
+            opacity: 0.8;
+        }
+
+        .footer-right {
+            text-align: right;
+            font-size: 15px;
+            line-height: 2;
+            padding-right: 5px;
+            font-weight: bold;
+        }
+
+        /* Page Number */
+        .page-number {
+            position: absolute;
+            bottom: 10mm;
+            right: 15mm;
+            font-size: 11px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* પ્રિન્ટ કરવા માટેની સ્ટાઈલ */
         @media print {
-            body { background-color: white; padding: 0; }
-            .container { box-shadow: none; width: 100%; padding: 0; }
-            .btn-print { display: none; }
-            .underline:focus { background-color: transparent; }
+            body {
+                background-color: #ffffff;
+                padding: 0;
+                margin: 0;
+                font-weight: bold;
+            }
+            .toolbar {
+                display: none;
+            }
+            .page-wrapper {
+                width: 210mm;
+                height: 297mm;
+                padding: 10mm;
+                box-shadow: none;
+                margin: 0 auto;
+            }
+            .certificate-container {
+                border: 4px solid #d32f2f;
+                box-shadow: none;
+                page-break-after: avoid;
+                padding: 1mm 20mm 20mm 20mm;
+            }
+            .dotted-line:focus {
+                background-color: transparent;
+            }
+            /* પ્રિન્ટમાં પણ અક્ષરો કાળા અને બોલ્ડ રહેશે */
+            .dotted-line {
+                color: #000000 !important;
+                font-weight: bold !important;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>બોનાફાઈડ પ્રમાણપત્ર (સંસ્થાના લેટર પેડ પર)</h1>
-
-        <p>
-            આથી પ્રમાણિત કરવામાં આવે છે કે શ્રી/શ્રીમતિ <span class="underline w-300" contenteditable="true"></span> ના પુત્રશ્રી/ પુત્રી
-            કુ./શ્રીમતિ <span class="underline w-300" contenteditable="true"></span> શાળા/યુનિવર્સિટી અંતર્ગતની
-            <span class="underline w-200" contenteditable="true"></span> સંસ્થામાં <span class="underline w-200" contenteditable="true"></span> કોર્સ નો
-            અભ્યાસ કરે છે. સદર સંપૂર્ણ કોર્સ કુલ <span class="underline w-100" contenteditable="true"></span> વર્ષનો છે, જે પૈકી વિદ્યાર્થી વર્ષ
-            ૨૦૨૩-૨૪માં <span class="underline w-100" contenteditable="true"></span> વર્ષમાં અભ્યાસ કરે છે. તેઓનું વાર્ષિક સત્ર શરૂ થયા તારીખ
-            <span class="underline w-date" contenteditable="true"></span>/<span class="underline w-date" contenteditable="true"></span>/<span class="underline w-date" contenteditable="true"></span> છે. સદરહુ વિદ્યાર્થી/વિદ્યાર્થીની અગાઉના વર્ષ/ધોરણમાં નાપાસ થયેલ નથી.
-        </p>
-
-        <p>
-            અત્રેની સંસ્થાને સરકારશ્રીના તારીખ <span class="underline w-date" contenteditable="true"></span>/<span class="underline w-date" contenteditable="true"></span>/<span class="underline w-date" contenteditable="true"></span> ના હુકમ નંબર
-            <span class="underline w-300" contenteditable="true"></span> થી માન્યતા પ્રાપ્ત છે. વિદ્યાર્થી/વિદ્યાર્થીની દ્વારા અન્ય કોઈ
-            સરકારી વિભાગની સમાન પ્રકારની સહાય લીધેલ નથી.
-        </p>
-
-        <div class="fee-line">
-            <span>વિદ્યાર્થી દ્વારા કરવામાં આવતા <span class="underline w-300" contenteditable="true"></span></span>
-        </div>
-        <div style="margin-top: 10px;">
-            કોર્સની વાર્ષિક ફી ₹ <span class="underline w-200" contenteditable="true"></span> છે.
-        </div>
-
+    <!-- ટૂલબાર (ફક્ત સ્ક્રીન પર દેખાશે) -->
+    <div class="toolbar">
+        <button onclick="window.print()">🖨️ પ્રિન્ટ કરો / PDF સેવ કરો</button>
     </div>
 
-    <!-- પ્રિન્ટ કરવા માટેનું બટન -->
-    <button class="btn-print" onclick="window.print()">🖨️ પ્રિન્ટ / PDF સેવ કરો</button>
+    <!-- A4 પેજ વ્રેપર (1cm જગ્યા સાથે) -->
+    <div class="page-wrapper">
+        
+        <!-- પ્રમાણપત્ર કન્ટેનર (એડિટેબલ) -->
+        <div class="certificate-container" contenteditable="true">
+            
+            <!-- Header -->
+            <div class="header">
+                <h4>નમૂનો-૨</h4>
+                <p>(જુઓ નિયમ ૧૧ નો પેટા નિયમ (૨) અને નિયમ -૪ના પેટા નિયમો (૫) અને (૬))</p>
+                
+                <!-- સત્યમેવ જયતે લોગો (લાલ કલરમાં) -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="સત્યમેવ જયતે" class="emblem">
+                
+                <div class="govt-title">ગુજરાત સરકાર</div>
+                
+                <div class="main-title">લગ્ન નોંધણી પ્રમાણપત્ર</div>
+                
+                <div class="sub-title">(ગુજરાત લગ્ન નોંધણી અધિનિયમ, ૨૦૦૬ હેઠળ)</div>
+            </div>
+
+            <!-- Body Content -->
+            <div class="content">
+                <div class="form-no">કમાંક:</div>
+                
+                <p>
+                    આથી પ્રમાણિત કરવામાં આવે છે કે <span class="dotted-line" style="min-width: 180px;" contenteditable="true">&nbsp;</span> ખાતેના નિવાસી શ્રી <span class="dotted-line" style="min-width: 220px;" contenteditable="true">&nbsp;</span> ના સુપુત્ર શ્રી <span class="dotted-line" style="min-width: 180px;" contenteditable="true">&nbsp;</span> એ અને <span class="dotted-line" style="min-width: 180px;" contenteditable="true">&nbsp;</span> ખાતેના નિવાસી શ્રી <span class="dotted-line" style="min-width: 220px;" contenteditable="true">&nbsp;</span> ની સુપુત્રી શ્રીમતી <span class="dotted-line" style="min-width: 180px;" contenteditable="true">&nbsp;</span> એ <span class="dotted-line" style="min-width: 80px;" contenteditable="true">&nbsp;</span> ના રોજ <span class="dotted-line" style="min-width: 130px;" contenteditable="true">&nbsp;</span> સ્થળે તેઓનું વિધિપૂર્વક લગ્ન થયેલ છે તેવું જાહેર કરતી વિગતો પૂરી પાડેલ છે અને તેની નોંધણી સન ૨૦<span class="dotted-line" style="min-width: 40px;" contenteditable="true">&nbsp;</span> ના <span class="dotted-line" style="min-width: 80px;" contenteditable="true">&nbsp;</span> માસની <span class="dotted-line" style="min-width: 40px;" contenteditable="true">&nbsp;</span> તારીખે ગુજરાત લગ્ન-નોંધણી અધિનિયમ, ૨૦૦૬ (સન ૨૦૦૬ના ગુજરાતના અધિનિયમ ક્રમાંક : ૧૬મા) હેઠળ નિભાવવામાં આવતા લગ્ન રજિસ્ટ્રરના ભાગ <span class="dotted-line" style="min-width: 60px;" contenteditable="true">&nbsp;</span> ના ક્રમ <span class="dotted-line" style="min-width: 60px;" contenteditable="true">&nbsp;</span> પર કરવામાં આવે છે.
+                </p>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <div class="footer-left">
+                    સ્થળ : <span class="dotted-line" style="min-width: 100px;" contenteditable="true">&nbsp;</span><br>
+                    તારીખ : <span class="dotted-line" style="min-width: 100px;" contenteditable="true">&nbsp;</span>
+                </div>
+                
+                <div class="footer-center">
+                    <!-- સિક્કો (Seal) -->
+                    <img src="https://via.placeholder.com/100x100?text=Seal" alt="Official Seal">
+                </div>
+                
+                <div class="footer-right">
+                    સહી:........................<br>
+                    લગ્ન-નોંધણી રજિસ્ટ્રાર.
+                </div>
+            </div>
+
+            <!-- Page Number -->
+            <div class="page-number">Page 8</div>
+
+        </div>
+    </div>
 
 </body>
 </html>
